@@ -1,4 +1,7 @@
 # 1.2 Дан целочисленный массив. Необходимо найти индекс минимального элемента.
+def indOfMinEl(arr)
+  return arr.index(arr.min)
+end
 
 # 1.14 Дан целочисленный массив и интервал a..b. Необходимо найти количество элементов в этом интервале.
 
@@ -32,13 +35,13 @@ end
 
 case n
 when 1
-  puts "Результат: #{1(arr)}"
+  puts "Результат: #{indOfMinEl(arr)}"
 when 2
-  puts "Результат: #{2(arr, ab)}"
+  puts "Результат: #{indOfMinEl(arr, ab)}"
 when 3
-  puts "Результат: #{3(arr)}"
+  puts "Результат: #{indOfMinEl(arr)}"
 when 4
-  puts "Результат: #{4(arr, ab)}"
+  puts "Результат: #{indOfMinEl(arr, ab)}"
 when 5
-  puts "Результат: #{5(arr)}"
+  puts "Результат: #{indOfMinEl(arr)}"
 end
