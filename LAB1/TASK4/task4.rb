@@ -18,6 +18,11 @@ def countOfElBetweenFirstMinAndSecondMin(arr)
   end
   return (firstMinIndex-secondMinIndex).abs
 end
+# 1.38 Дан целочисленный массив и отрезок a..b. Необходимо найти количество элементов, 
+# значение которых принадлежит этому отрезку.
+def countOfElInOtrezok(arr, interval)
+  return (arr.select {|element| (element > interval[0] && element < interval[1])  }).length
+end
 
 
 puts "Введите массив для обработки"
