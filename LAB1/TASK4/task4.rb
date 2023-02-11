@@ -23,7 +23,11 @@ end
 def countOfElInOtrezok(arr, interval)
   return (arr.select {|element| (element > interval[0] && element < interval[1])  }).length
 end
-
+# 1.50. Для двух введенных списков L1 и L2 построить новый список, состоящий из элементов,
+# встречающихся только в одном из этих списков и не повторяющихся в них.
+def delta(arr, arr2)
+  return arr.to_set.subtract(arr2.to_set).union(arr2.to_set.subtract(arr.to_set)).to_a
+end
 
 puts "Введите массив для обработки"
 arr = gets.chomp.split(' ').map(&:to_i)
