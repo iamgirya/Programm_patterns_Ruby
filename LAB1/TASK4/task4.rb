@@ -7,6 +7,17 @@ end
 def countOfElInInterval(arr, interval)
   return (arr.select {|element| (element >= interval[0] && element <= interval[1])  }).length
 end
+# 1.26 Дан целочисленный массив. Необходимо найти количество элементов между первым и последним минимальным.
+def countOfElBetweenFirstMinAndSecondMin(arr)
+  firstMinIndex = arr.index(arr.min)
+  tmpArr = arr.difference()
+  tmpArr.delete_at(firstMinIndex)
+  secondMinIndex = tmpArr.index(tmpArr.min)
+  if (firstMinIndex > secondMinIndex) then
+    firstMinIndex-=1
+  end
+  return (firstMinIndex-secondMinIndex).abs
+end
 
 
 puts "Введите массив для обработки"
