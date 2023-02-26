@@ -16,5 +16,14 @@ class Student
       self.email = options[:email]
     end
   
+    def to_s
+      result = "#{last_name} #{first_name} #{paternal_name}"
+      result += " id=#{id}" unless id.nil?
+      result += " phone=#{phone}" unless phone.nil?
+      result += " git=#{git}" unless git.nil?
+      result += " telegram=#{telegram}" unless telegram.nil?
+      result += " email=#{email}" unless email.nil?
+      result
+    end
   
   end
