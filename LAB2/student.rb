@@ -78,6 +78,19 @@ class Student
       @email = email
     end
   
+    def git?
+      !git.nil?
+    end
+  
+    def contact?
+      !email.nil? || !phone.nil? || !telegram.nil?
+    end
+  
+    def validate
+      git? && contact?
+    end
+  
+    
     def to_s
       result = "#{last_name} #{first_name} #{paternal_name}"
       result += " id=#{id}" unless id.nil?
