@@ -106,16 +106,16 @@ class Student
       "#{short_name}, #{contact}, git= #{git}"
     end
 
-    def git?
+    def is_have_git?
       !git.nil?
     end
   
-    def contact?
+    def is_have_contact?
       !email.nil? || !phone.nil? || !telegram.nil?
     end
   
     def validate
-      git? && contact?
+      is_have_git? && is_have_contact?
     end
   
     def set_contacts(contacts)

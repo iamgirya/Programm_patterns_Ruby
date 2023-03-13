@@ -14,7 +14,7 @@ puts Student.valid_phone?('79181461800')
 puts Student.valid_phone?('+9 (777)-777-77-77')
 puts Student.valid_account?('@r1411')
 puts Student.valid_email?('s0160151@edu.kubsu.ru')
-puts student3.git?
+puts student3.is_have_git?
 
 student1.set_contacts({telegram: '@waasabi13'})
 puts student1
