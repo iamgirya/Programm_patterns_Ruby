@@ -58,8 +58,12 @@ class Student < AbstractStudent
     end
 
     def self.read_from_txt(file_path)
+      arr = []
       begin
-        return Student.from_string(File.read(file_path))
+        File.foreach(file_path) do |line|
+          arr += [Student.from_string(line)]
+        end
+        return arr
       rescue => exception
         raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
       end
