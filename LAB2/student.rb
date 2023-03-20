@@ -37,7 +37,7 @@ class Student < AbstractStudent
       self.email = options[:email]
     end
   
-    def self.init_from_json(str)
+    def self.from_string(str)
       result = JSON.parse(str)
       raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
 
@@ -47,13 +47,34 @@ class Student < AbstractStudent
       Student.new(last_name, first_name, paternal_name, **result.transform_keys(&:to_sym))
     end
   
+    def validate
+      git? && contact?
+    end
+    
     def set_contacts(contacts)
       self.phone = contacts[:phone] if contacts.key?(:phone)
       self.telegram = contacts[:telegram] if contacts.key?(:telegram)
       self.email = contacts[:email] if contacts.key?(:email)
     end
 
-    def validate
-      git? && contact?
+    def self.read_from_txt(file_path)
+      begin
+        return Student.from_string(File.read(file_path))
+      rescue => exception
+        raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
+      end
     end
+  
+    def self.write_to_txt(file_path, students)
+      begin
+        File.open(file_path, 'w') do |file|
+          students.each do |student|
+            file.puts student.to_s
+          end
+        end
+      rescue => exception
+        raise "Error writing to file at the given address #{file_path}. Exception: #{exception.message}"
+      end
+    end
+
   end

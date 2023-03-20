@@ -6,6 +6,7 @@ student2 = Student.new('Пиндосов', 'Облом', 'Баракович', {
 student3 = Student.new('Атому', 'Ли', 'Ядала', { phone: '79181461800', email: 'goaloffway@mail.ru', git: '@vitaliyg' })
 student4 = Student.new('Гераклов', 'Поход', 'Подвигоевич', {id: 12, phone: '79698876534'})
 student5 = Student.new('Братанов', 'Друган', 'Кентович', {id: 77, phone: '+7 (777)-777-77-77'})
+student6 = Student.read_from_txt('test.txt')
 puts student1
 puts student2
 puts student3
@@ -29,3 +30,4 @@ puts st4.to_s
 puts StudentShort.from_string(st4.to_s) 
 puts student1.contact
 puts student1.fio
+puts student6
