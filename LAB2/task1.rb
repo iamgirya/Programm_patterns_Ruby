@@ -31,3 +31,4 @@ puts StudentShort.from_string(st4.to_s)
 puts student1.contact
 puts student1.fio
 puts student6[1].get_info
+Student.write_to_txt('test2.txt', student6)
