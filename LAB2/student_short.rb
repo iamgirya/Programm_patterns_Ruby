@@ -1,40 +1,38 @@
 # frozen_string_literal: true
 require 'json'
+require_relative "./meta_code.rb"
+require_relative "./student_abstract.rb"
 
-class StudentShort
-  # стандартные геттеры и сеттеры для класса
-  attr_reader :id, :git, :contact
+class StudentShort < AbstractStudent
+    attr_reader :fio
+    private_attr_writer :git, :contact, :id, :fio
 
-  def initialize(id, info_str)
-    self.id = id
-    result = JSON.parse(info_str)
-    raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
+    def initialize(id:, fio:, git:, contact:)
+        self.id = id
+        self.fio = fio
+        self.git = git
+        self.contact = contact
+    end
 
-    @last_name = result['last_name']
-    @initials = "#{result['first_name'][0]}. #{result['paternal_name'][0]}."
-    set_contacts(result)
-  end
+    def self.from_student(student) 
+        StudentShort.new(
+            id: student.id, 
+            fio: "#{student.first_name} #{student.last_name.upcase[0]}. #{student.paternal_name.upcase[0]}.",
+            git: student.git,
+            contact: student.contact
+        )
+    end
 
-  def self.from_student(student)
-    info = { last_name: student.last_name, first_name: student.first_name, paternal_name: student.paternal_name,
-             git: student.git, email: student.email, phone: student.phone, telegram: student.telegram }
-    StudentShort.new(student.id, JSON.generate(info))
-  end
+    def self.from_string(json) 
+      result = JSON.parse(json)
+      raise ArgumentError, 'Missing field: fio' unless result.key?('fio')
 
-
-
-  def last_name_and_initials
-    "#{last_name} #{initials}"
-  end
-
-  private
-
-  attr_reader :last_name, :initials
-
-  def set_contacts(contacts)
-    return @contact = contacts['phone'] if contacts.key?('phone')
-    return @contact = contacts['telegram'] if contacts.key?('telegram')
-
-    @contact = contacts['email'] if contacts.key?('email')
-  end
+      fio = result.delete('fio')
+      StudentShort.new(
+        id: result['id'],
+        fio: fio,
+        git: result['git'],
+        contact: result['contact']
+      )
+    end    
 end

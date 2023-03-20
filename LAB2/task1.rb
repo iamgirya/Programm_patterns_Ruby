@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'student'
+require_relative 'student_short'
 student1 = Student.new('Полетов', 'Разбор', 'Алексеевич')
 student2 = Student.new('Пиндосов', 'Облом', 'Баракович', { id: 1, telegram: '@fakk_usa' })
 student3 = Student.new('Атому', 'Ли', 'Ядала', { phone: '79181461800', email: 'goaloffway@mail.ru', git: '@vitaliyg' })
@@ -10,13 +11,21 @@ puts student2
 puts student3
 puts student4
 puts student5
-puts Student.valid_phone?('79181461800')
-puts Student.valid_phone?('+9 (777)-777-77-77')
-puts Student.valid_account?('@r1411')
-puts Student.valid_email?('s0160151@edu.kubsu.ru')
-puts student3.is_have_git?
+puts Student.validate_phone?('79181461800')
+puts Student.validate_phone?('+9 (777)-777-77-77')
+puts Student.validate_git?('@r1411')
+puts Student.validate_email?('s0160151@edu.kubsu.ru')
+puts student3.git?
 
 student1.set_contacts({telegram: '@waasabi13'})
-puts student1
+puts student1.last_name
 
-puts student5.short_info
+puts student5.get_info
+
+st3 = StudentShort.from_student(student3)
+st4 = StudentShort.from_string('{"fio": "Гиренко Д.Е.", "id":1}')
+puts st4.get_info
+puts st4.to_s
+puts StudentShort.from_string(st4.to_s) 
+puts student1.contact
+puts student1.fio
