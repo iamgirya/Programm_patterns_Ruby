@@ -68,7 +68,7 @@ class Student < AbstractStudent
         raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
       end
     end
-  
+  #Упс)
     def self.write_to_txt(file_path, students)
       begin
         File.open(file_path, 'w') do |file|
