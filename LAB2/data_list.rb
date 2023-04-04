@@ -11,8 +11,7 @@ class DataList
     end
 
     def get_selected_objects
-        (0..<list.size)
-            .filter { |x| selected_objects.include? x }
+        selected_objects.map { |x| x.id }
     end
 
     def get_names
