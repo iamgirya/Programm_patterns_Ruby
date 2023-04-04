@@ -33,3 +33,16 @@ puts student1.contact
 puts student1.fio
 puts student6[1].get_info
 Student.write_to_txt('test2.txt', student6)
+
+short_array = [
+    StudentShort.new(id: 0, fio: "Aa Bb Cc", git: "@abc", email: "abc@vk.com"),
+    StudentShort.new(id: 0, fio: "Afrl Advm Apgmti", git: "@aaa", email: "aaa@vk.com"),
+]
+
+list = DataListStudentShort.new(
+    list: short_array,
+)
+list.select(1)
+puts list.get_selected_objects
+puts list.get_names(list.get_selected_objects[0])
+puts list.get_data(short_array)
