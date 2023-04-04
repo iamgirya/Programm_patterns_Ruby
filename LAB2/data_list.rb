@@ -14,11 +14,16 @@ class DataList
         selected_objects.map { |x| x.id }
     end
 
-    def get_names
-        raise "Метод не реализован"
+    MESS = "SYSTEM ERROR: method missing"
+    protected def select_vars(object); raise MESS; end
+    protected def filter(object); raise MESS; end
+    protected def create_data(object); raise MESS; end
+    
+    def get_names(object)
+        filter(select_vars(object))
     end
 
-    def get_data
-        raise "Метод не реализован"
+    def get_data(object) 
+        return DataTable.new(data: create_data(get_names(object)))
     end
 end

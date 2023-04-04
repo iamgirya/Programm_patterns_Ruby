@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative 'student'
 require_relative 'student_short'
+require_relative 'data_list_short'
 student1 = Student.new('Полетов', 'Разбор', 'Алексеевич')
 student2 = Student.new('Пиндосов', 'Облом', 'Баракович', { id: 1, telegram: '@fakk_usa' })
 student3 = Student.new('Атому', 'Ли', 'Ядала', { phone: '79181461800', email: 'goaloffway@mail.ru', git: '@vitaliyg' })
