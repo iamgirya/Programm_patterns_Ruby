@@ -17,6 +17,14 @@ def private_attr_writer(*methods)
     end
 end
 
+def private_attr_accessor(*methods)
+    methods.each do |method|
+    class_eval %{
+        attr_accessor :#{method};private :#{method}=
+    }
+    end
+end
+
 def attr_validate_reader(methods, regex)
     class_eval %{
         def #{methods}
