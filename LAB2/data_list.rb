@@ -1,5 +1,5 @@
 class DataList 
-    private_attr_accessor :list
+    attr_accessor :list
     private_attr_accessor :selected_objects
 
     def initialize(list:)
@@ -19,14 +19,14 @@ class DataList
     protected def filter(object); raise MESS; end
     protected def create_data(objects_names); raise MESS; end
 
-    def get_names(object)
-        filter(select_vars(object))
+    def get_names
+        filter(select_vars(list[0]))
     end
 
-    def get_data(objects)
+    def get_data
         return DataTable.new(
             data: create_data(
-                (0..objects.size).map { |object_index|
+                (0..list.size).map { |object_index|
                     get_names(objects[object_index])
                 }
             )

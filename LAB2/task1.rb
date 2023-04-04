@@ -44,5 +44,5 @@ list = DataListStudentShort.new(
 )
 list.select(1)
 puts list.get_selected_objects
-puts list.get_names(list.get_selected_objects[0])
-puts list.get_data(short_array)
+puts list.get_names
+puts list.get_data
