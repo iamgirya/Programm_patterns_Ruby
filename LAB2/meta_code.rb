@@ -1,5 +1,4 @@
 def getter(*methods)
-    str = '"'
     methods.each do |method|
     class_eval %{
         def get_#{method}

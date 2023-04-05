@@ -59,7 +59,7 @@ class StudentsListBase
       offset = (page - 1) * count
       slice = students[offset, count].map { |s| StudentShort.from_student(s) }
   
-      return DataListStudentShort.new(slice) if existing_data_list.nil?
+      return DataListStudentShort.new(list: slice) if existing_data_list.nil?
   
       existing_data_list.append(slice)
     end

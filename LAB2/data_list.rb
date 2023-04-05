@@ -24,12 +24,12 @@ class DataList
     end
 
     def get_data
-        return DataTable.new(
-            data: create_data(
-                (0..list.size).map { |object_index|
-                    get_names(objects[object_index])
-                }
-            )
-        )
+        DataTable.new(
+                    data: create_data(
+                        (0..list.size).map { |object_index|
+                            get_names
+                        }
+                    )
+                )
     end
 end

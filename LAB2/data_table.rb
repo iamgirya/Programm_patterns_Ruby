@@ -9,11 +9,11 @@ class DataTable
         data[row][column]
     end
 
-    def columnsCount 
+    def columns_count
         data[0].size
     end
 
-    def rowsCount
+    def rows_count
         data.size
     end
 end

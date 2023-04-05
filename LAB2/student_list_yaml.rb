@@ -1,4 +1,6 @@
-class StudentsListJson
+require 'yaml'
+
+class StudentsListYaml
     attr_accessor :students
     
     def initialize
@@ -9,7 +11,7 @@ class StudentsListJson
         students = []
         begin
             File.foreach(file_path) do |line|
-                students += [Student.from_json(line)]
+                students += [Student.from_yaml(line)]
             end
         rescue => exception
             raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
@@ -24,7 +26,7 @@ class StudentsListJson
                 student.instance_variables.map do |attribute|
                     vars[attribute.to_s[1..-1]]=student.instance_variable_get(attribute)
                 end
-                file.puts JSON(vars)
+                file.puts YAML(vars)
             end
             end
         rescue => exception

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'json'
+require 'yaml'
 require_relative "./meta_code.rb"
 require_relative "./student_abstract.rb"
 
@@ -39,6 +40,16 @@ class Student < AbstractStudent
   
     def self.from_json(str)
       result = JSON.parse(str)
+      raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
+
+      last_name = result.delete('last_name')
+      first_name = result.delete('first_name')
+      paternal_name = result.delete('paternal_name')
+      Student.new(last_name, first_name, paternal_name, **result.transform_keys(&:to_sym))
+    end
+
+    def self.from_yaml(str)
+      result = YAML.parse(str)
       raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
 
       last_name = result.delete('last_name')
