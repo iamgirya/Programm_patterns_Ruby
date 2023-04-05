@@ -37,7 +37,7 @@ class Student < AbstractStudent
       self.email = options[:email]
     end
   
-    def self.from_string(str)
+    def self.from_json(str)
       result = JSON.parse(str)
       raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
 
@@ -61,7 +61,7 @@ class Student < AbstractStudent
       arr = []
       begin
         File.foreach(file_path) do |line|
-          arr += [Student.from_string(line)]
+          arr += [Student.from_json(line)]
         end
         return arr
       rescue => exception

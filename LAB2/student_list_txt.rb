@@ -9,7 +9,7 @@ class StudentsListBase
         students = []
         begin
             File.foreach(file_path) do |line|
-                students += [Student.from_string(line)]
+                students += [Student.from_json(line)]
             end
         rescue => exception
             raise "File not found at the given address #{file_path}. Exception: #{exception.message}"

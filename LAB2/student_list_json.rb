@@ -9,7 +9,7 @@ class StudentsListBase
         students = []
         begin
             File.foreach(file_path) do |line|
-                students += [Student.from_string(line)]
+                students += [Student.from_json(line)]
             end
         rescue => exception
             raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
@@ -20,7 +20,11 @@ class StudentsListBase
         begin
             File.open(file_path, 'w') do |file|
             students.each do |student|
-                file.puts student.to_s
+                vars = {}
+                student.instance_variables.map do |attribute|
+                    vars[attribute.to_s[1..-1]]=student.instance_variable_get(attribute)
+                end
+                file.puts JSON(vars)
             end
             end
         rescue => exception
