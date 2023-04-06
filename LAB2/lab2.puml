@@ -6,27 +6,27 @@ abstract class AbstractStudent {
     -git: String
     -contact: String
     --
-    #to_s(): String
-    #get_id(): String
-    #get_git(): String
-    #get_contact(): String
-    #get_fio(): String
-    #get_info(): String
+    +to_s(): String
+    +get_id(): String
+    +get_git(): String
+    +get_contact(): String
+    +get_fio(): String
+    +get_info(): String
     .. Геттеры ..
     +git(): String
     +contact(): String
     +id(): String
 }
 class Student extends AbstractStudent {
-    -last_name: String
-    -first_name: String
-    -paternal_name: String
-    -phone: String
-    -email: String
-    -telegram: String
-    -git: String
-    -contact: String
-    -fio: String
+    +last_name: String
+    +first_name: String
+    +paternal_name: String
+    +phone: String
+    +email: String
+    +telegram: String
+    +git: String
+    +contact: String
+    +fio: String
     --
     +{static}from_yaml(String): Student
     +{static}from_json(String): Student
@@ -64,7 +64,7 @@ class Student extends AbstractStudent {
     +paternal_name=(String)
 }
 class StudentShort extends AbstractStudent {
-    -fio: String
+    #fio: String
     --
     +{static}from_student(Student): StudentShort
     +{static}from_json(String): StudentShort
@@ -85,33 +85,28 @@ abstract class DataList {
     +initialize(Array)
     +select(Integer)
     +get_selected_objects(): Array
-    +select_vars(Object): Array
-    +filter(Array): Array
     +get_names(): Array
-    +create_data(Array): Array
     +get_data(): DataTable
-    .. Геттеры ..
-    +list(): Array
-    .. Сеттеры ..
-    +list=(Array)
+    #get_vars(Object): Array
+    #filter(Array): Array
+    #create_data(Array): Array
 }
 class DataListStudentShort extends DataList {
-    names: Array
+    -names: Array
     --
     +initialize(Array)
-    +select_vars(Object): Array
-    +filter(Array): Array
-    +create_data(Array): Array
+    -get_vars(Object): Array
+    -filter(Array): Array
+    -create_data(Array): Array
 }
 
-abstract class StudentsListBase {
+class StudentsList {
     -students: Array
+    -transformer: DataTransformer
     --
-    -initialize()
+    +initialize(DataTransformer)
     +read_from_txt(String)
-    +parse_to_student(String): Student
     +write_to_txt(String)
-    +puts_student(Student): String
     +student_by_id(Integer): Student
     +sorted(): Array
     +add_student(Student)
@@ -119,21 +114,21 @@ abstract class StudentsListBase {
     +remove(Integer)
     +get_student_short_count(): Integer
     +get_k_n_student_short_list(Integer, Integer, DataList: nil): DataList
-    .. Геттеры ..
-    -students(): Array
-    .. Сеттеры ..
-    -students=(Array)
 }
 
-class StudentsListJson extends StudentsListBase {
-    --
+abstract class DataTransformer {
     +puts_student(Student): String
     +parse_to_student(String): Student
 }
-class StudentsListYaml extends StudentsListBase {
-    --
+
+class DataTransformerJson extends DataTransformer {
+    +puts_student(Student): String
+    +parse_to_student(String): Student
+}
+class DataTransformerYaml extends DataTransformer {
     +puts_student(Student): String
     +parse_to_student(String): Student
 }
 DataList ..> DataTable
+StudentsList *-- DataTransformer
 @enduml

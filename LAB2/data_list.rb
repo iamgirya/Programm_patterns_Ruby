@@ -1,7 +1,7 @@
 require_relative "./meta_code.rb"
 
 class DataList
-    attr_accessor :list
+    private_attr_accessor :list
     private_attr_accessor :selected_objects
 
     def initialize(list:)
@@ -10,20 +10,20 @@ class DataList
     end
 
     def select(index)
-        selected_objects << index
+        selected_objects << list[index].id
     end
 
     def get_selected_objects
-        list.filter { |x| selected_objects.include?(x.id) }
+        selected_objects
     end
 
     MESS = "SYSTEM ERROR: method missing"
-    protected def select_vars(object); raise MESS; end
+    protected def get_vars; raise MESS; end
     protected def filter(object); raise MESS; end
     protected def create_data(objects_names); raise MESS; end
 
     def get_names
-        filter(select_vars(list[0]))
+        filter(get_vars)
     end
 
     def get_data

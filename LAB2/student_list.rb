@@ -1,38 +1,34 @@
-class StudentsListBase
-    attr_accessor :students
-    
-    def initialize
+class StudentsList
+    private_attr_accessor :students
+    private_attr_accessor :transformer
+
+
+    def initialize(dt)
       self.students = []
+      self.transformer = dt
     end
   
     def read_from_txt(file_path)
-        students = []
         begin
             File.foreach(file_path) do |line|
-                students += [parse_to_student(line)]
+              students << transformer.parse_to_student(line)
             end
         rescue => exception
             raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
         end
     end
 
-    MESS = "SYSTEM ERROR: method missing"
-    def parse_to_student(line); raise MESS; end
-
     def write_to_txt(file_path)
         begin
             File.open(file_path, 'w') do |file|
             students.each do |student|
-                puts_student(student)
+              file.puts transformer.puts_student(student)
             end
             end
         rescue => exception
             raise "Error writing to file at the given address #{file_path}. Exception: #{exception.message}"
         end
     end
-
-    MESS = "SYSTEM ERROR: method missing"
-    def puts_student(student); raise MESS; end
 
     def student_by_id(student_id)
       students.detect { |s| s.id == student_id }
@@ -43,8 +39,9 @@ class StudentsListBase
     end
   
     def add_student(student)
-        student.id = students.max_by(&:id).id + 1
-        students << student
+      maxID = students.max_by(&:id)
+      student.id = maxID != nil ? maxID.id + 1 : 0
+      students << student
     end
     
     def replace(student_id, student)

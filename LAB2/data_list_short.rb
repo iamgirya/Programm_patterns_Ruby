@@ -11,12 +11,12 @@ class DataListStudentShort < DataList
         self.names = get_names
     end
 
-    private def select_vars(object)
-        object.instance_variables.map { |x| x.to_s[0..-1] }.map { |x| x[1..-1] }
+    private def get_vars
+        ["ID","ФИО","Git","Контакт"]
     end
 
     private def filter(object)
-        object.filter { |x| x  != "@id" }
+        object.filter { |x| x  != "ID" }
     end
 
     private def create_data(objects_names)

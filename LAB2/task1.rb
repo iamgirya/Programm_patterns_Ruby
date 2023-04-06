@@ -2,6 +2,9 @@
 require_relative 'student'
 require_relative 'student_short'
 require_relative 'data_list_short'
+require_relative 'student_list'
+require_relative 'data_transformers'
+/
 student1 = Student.new('Полетов', 'Разбор', 'Алексеевич')
 student2 = Student.new('Пиндосов', 'Облом', 'Баракович', { id: 1, telegram: '@fakk_usa' })
 student3 = Student.new('Атому', 'Ли', 'Ядала', { phone: '79181461800', email: 'goaloffway@mail.ru', git: '@vitaliyg' })
@@ -46,3 +49,9 @@ list.select(1)
 puts list.get_selected_objects.map { |x| x.to_s }
 puts list.get_names
 puts list.get_data
+*/
+stud_list_json = StudentsList.new(DataTransformerJson.new)
+stud_list_yaml = StudentsList.new(DataTransformerYaml.new)
+stud_list_json.read_from_txt('test.json')
+stud_list_json.sorted().each { |x| stud_list_yaml.add_student(x) }
+stud_list_yaml.write_to_txt('testik.yaml')
