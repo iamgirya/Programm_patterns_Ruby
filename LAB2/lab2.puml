@@ -1,0 +1,139 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractStudent {
+    -id: Integer
+    -git: String
+    -contact: String
+    --
+    #to_s(): String
+    #get_id(): String
+    #get_git(): String
+    #get_contact(): String
+    #get_fio(): String
+    #get_info(): String
+    .. Геттеры ..
+    +git(): String
+    +contact(): String
+    +id(): String
+}
+class Student extends AbstractStudent {
+    -last_name: String
+    -first_name: String
+    -paternal_name: String
+    -phone: String
+    -email: String
+    -telegram: String
+    -git: String
+    -contact: String
+    -fio: String
+    --
+    +{static}from_yaml(String): Student
+    +{static}from_json(String): Student
+    +{static}read_from_txt(String): Student[]
+    +{static}write_to_txt(String, Student[])
+    +initialize(String, String, String, Hash)
+    +set_contacts(Hash)
+    +validate(): Bool
+    +fio(): String
+    +contact(): String
+    +last_name?: Bool
+    +first_name?: Bool
+    +paternal_name?: Bool
+    +phone?: Bool
+    +email?: Bool
+    +telegram?: Bool
+    +git?: Bool
+    +contact?: Bool
+    +fio?: Bool
+    .. Геттеры ..
+    +phone(): String
+    +telegram(): String
+    +email(): String
+    +last_name(): String
+    +first_name(): String
+    +paternal_name(): String
+    .. Сеттеры ..
+    +id=(Integer)
+    +git=(String)
+    +phone=(String)
+    +telegram=(String)
+    +email=(String)
+    +last_name=(String)
+    +first_name=(String)
+    +paternal_name=(String)
+}
+class StudentShort extends AbstractStudent {
+    -fio: String
+    --
+    +{static}from_student(Student): StudentShort
+    +{static}from_json(String): StudentShort
+    +initialize(Integer, String, String, String)
+}
+class DataTable {
+    -data: Array
+    --
+    +initialize(Array)
+    +element(Integer, Integer): Object
+    +rows_count(): Integer
+    +columns_count(): Integer
+}
+abstract class DataList {
+    -list: Array
+    -selected_objects: Array
+    --
+    +initialize(Array)
+    +select(Integer)
+    +get_selected_objects(): Array
+    +select_vars(Object): Array
+    +filter(Array): Array
+    +get_names(): Array
+    +create_data(Array): Array
+    +get_data(): DataTable
+    .. Геттеры ..
+    +list(): Array
+    .. Сеттеры ..
+    +list=(Array)
+}
+class DataListStudentShort extends DataList {
+    names: Array
+    --
+    +initialize(Array)
+    +select_vars(Object): Array
+    +filter(Array): Array
+    +create_data(Array): Array
+}
+
+abstract class StudentsListBase {
+    -students: Array
+    --
+    -initialize()
+    +read_from_txt(String)
+    +parse_to_student(String): Student
+    +write_to_txt(String)
+    +puts_student(Student): String
+    +student_by_id(Integer): Student
+    +sorted(): Array
+    +add_student(Student)
+    +replace(Integer, Student)
+    +remove(Integer)
+    +get_student_short_count(): Integer
+    +get_k_n_student_short_list(Integer, Integer, DataList: nil): DataList
+    .. Геттеры ..
+    -students(): Array
+    .. Сеттеры ..
+    -students=(Array)
+}
+
+class StudentsListJson extends StudentsListBase {
+    --
+    +puts_student(Student): String
+    +parse_to_student(String): Student
+}
+class StudentsListYaml extends StudentsListBase {
+    --
+    +puts_student(Student): String
+    +parse_to_student(String): Student
+}
+DataList ..> DataTable
+@enduml

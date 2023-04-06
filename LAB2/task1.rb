@@ -25,10 +25,10 @@ puts student1.last_name
 puts student5.get_info
 
 st3 = StudentShort.from_student(student3)
-st4 = StudentShort.from_string('{"fio": "Гиренко Д.Е.", "id":1}')
+st4 = StudentShort.from_json('{"fio": "Гиренко Д.Е.", "id":1}')
 puts st4.get_info
 puts st4.to_s
-puts StudentShort.from_string(st4.to_s) 
+puts StudentShort.from_json(st4.to_s)
 puts student1.contact
 puts student1.fio
 puts student6[1].get_info
@@ -43,6 +43,6 @@ list = DataListStudentShort.new(
     list: short_array,
 )
 list.select(1)
-puts list.get_selected_objects
+puts list.get_selected_objects.map { |x| x.to_s }
 puts list.get_names
 puts list.get_data

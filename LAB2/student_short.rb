@@ -23,7 +23,7 @@ class StudentShort < AbstractStudent
         )
     end
 
-    def self.from_string(json) 
+    def self.from_json(json)
       result = JSON.parse(json)
       raise ArgumentError, 'Missing field: fio' unless result.key?('fio')
 

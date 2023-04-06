@@ -49,7 +49,7 @@ class Student < AbstractStudent
     end
 
     def self.from_yaml(str)
-      result = YAML.parse(str)
+      result = YAML.load(str)
       raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
 
       last_name = result.delete('last_name')

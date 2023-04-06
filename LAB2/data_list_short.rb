@@ -12,7 +12,7 @@ class DataListStudentShort < DataList
     end
 
     private def select_vars(object)
-        object.instance_variables.map { |x| x.to_s[1..-1] }.map { |x| x[1..-1] }
+        object.instance_variables.map { |x| x.to_s[0..-1] }.map { |x| x[1..-1] }
     end
 
     private def filter(object)

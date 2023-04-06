@@ -11,7 +11,7 @@ class StudentsListYaml
         student.instance_variables.map do |attribute|
             vars[attribute.to_s[1..-1]]=student.instance_variable_get(attribute)
         end
-        file.puts YAML(vars)
+        file.puts (vars).to_yaml
     end
 
   end

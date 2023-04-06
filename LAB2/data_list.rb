@@ -1,9 +1,12 @@
-class DataList 
+require_relative "./meta_code.rb"
+
+class DataList
     attr_accessor :list
     private_attr_accessor :selected_objects
 
     def initialize(list:)
         self.list = list
+        self.selected_objects = []
     end
 
     def select(index)
@@ -11,7 +14,7 @@ class DataList
     end
 
     def get_selected_objects
-        selected_objects.map { |x| x.id }
+        list.filter { |x| selected_objects.include?(x.id) }
     end
 
     MESS = "SYSTEM ERROR: method missing"

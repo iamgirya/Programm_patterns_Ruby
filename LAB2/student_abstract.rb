@@ -12,6 +12,6 @@ class AbstractStudent
         self.instance_variables.map do |attribute|
             vars[attribute.to_s[1..-1]]=self.instance_variable_get(attribute)
         end
-        return vars.to_s
+        return JSON(vars)
     end
 end
