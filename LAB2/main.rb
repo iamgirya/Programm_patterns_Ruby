@@ -1,4 +1,4 @@
-require './database/student_db.rb'
-require './database/students_list_db.rb'
+require_relative 'ui/main_screen'
 
-puts StudentsListDB.get_student(2)
+main_window = MainWindow.new.create
+main_window.show
