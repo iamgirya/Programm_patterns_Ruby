@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'json'
-require_relative "./meta_code.rb"
+require_relative "../../support/meta_code"
 require_relative "./student_abstract.rb"
 
 class StudentShort < AbstractStudent

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'json'
 require 'yaml'
-require_relative "./meta_code.rb"
+require_relative "../../support/meta_code"
 require_relative "./student_abstract.rb"
 
 class Student < AbstractStudent
@@ -13,19 +13,6 @@ class Student < AbstractStudent
     attr_validate_accessor :last_name, '/^[А-Я][а-я]+$/'
     attr_validate_accessor :first_name, '/^[А-Я][а-я]+$/'
     attr_validate_accessor :paternal_name, '/^[А-Я][а-я]+$/'
-    attr_is_have_reader :fio
-    attr_is_have_reader :contact
-
-    def fio
-      "#{last_name} #{first_name.upcase[0]}. #{paternal_name.upcase[0]}."
-    end
-
-    def contact
-      return "#{phone}" unless phone.nil?
-      return "#{telegram}" unless telegram.nil?
-      return "#{email}" unless email.nil?
-      nil
-    end
 
     def initialize(last_name, first_name, paternal_name, options = {})
       self.last_name = last_name
@@ -36,6 +23,29 @@ class Student < AbstractStudent
       self.git = options[:git]
       self.telegram = options[:telegram]
       self.email = options[:email]
+    end
+
+    attr_is_have_reader :fio
+    def fio
+      "#{last_name} #{first_name.upcase[0]}. #{paternal_name.upcase[0]}."
+    end
+
+    attr_is_have_reader :contact
+    def contact
+      return "#{phone}" unless phone.nil?
+      return "#{telegram}" unless telegram.nil?
+      return "#{email}" unless email.nil?
+      nil
+    end
+
+    def validate
+      git? && contact?
+    end
+
+    def set_contacts(contacts)
+      self.phone = contacts[:phone] if contacts.key?(:phone)
+      self.telegram = contacts[:telegram] if contacts.key?(:telegram)
+      self.email = contacts[:email] if contacts.key?(:email)
     end
   
     def self.from_json(str)
@@ -56,16 +66,6 @@ class Student < AbstractStudent
       first_name = result.delete('first_name')
       paternal_name = result.delete('paternal_name')
       Student.new(last_name, first_name, paternal_name, **result.transform_keys(&:to_sym))
-    end
-  
-    def validate
-      git? && contact?
-    end
-    
-    def set_contacts(contacts)
-      self.phone = contacts[:phone] if contacts.key?(:phone)
-      self.telegram = contacts[:telegram] if contacts.key?(:telegram)
-      self.email = contacts[:email] if contacts.key?(:email)
     end
 
     def self.read_from_txt(file_path)

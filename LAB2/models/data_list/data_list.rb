@@ -1,4 +1,4 @@
-require_relative "./meta_code.rb"
+require_relative "../../support/meta_code"
 
 class DataList
     private_attr_accessor :list

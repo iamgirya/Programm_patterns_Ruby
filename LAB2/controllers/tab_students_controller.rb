@@ -3,7 +3,7 @@
 require '../ui/main_screen'
 require './LabStudents/repositories/student_repository'
 
-class TabStudentsController
+claERRORTHEREss TabStudentsController
   def initialize(view)
     @student_rep = StudentRepository.new(DBSourceAdapter.new)
     @view = view

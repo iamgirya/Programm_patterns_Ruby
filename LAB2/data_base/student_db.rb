@@ -3,15 +3,15 @@ require 'mysql2'
 class StudentsDB
   private_attr_accessor :db_connection
 
-  def initialize()
+  def initialize
     self.db_connection = Mysql2::Client.new(:host => "localhost", :username => "root")
     self.db_connection.query('CREATE DATABASE IF NOT EXISTS my_db')
     self.db_connection.query('USE my_db')
     self.db_connection.query('DROP TABLE IF EXISTS student')
     self.db_connection.query(File.read('database/scripts/create_table.sql'))
-    self.fill_data()
+    self.fill_data
   end
-  private def fill_data()
+  private def fill_data
     db_connection.query(File.read('database/scripts/fill_data.sql'))
   end
 
