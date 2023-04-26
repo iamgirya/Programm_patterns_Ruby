@@ -1,37 +1,37 @@
 require_relative './student_db.rb'
 
 class StudentsListDB
-  private_attr_accessor :database
+  private_class_method :new
 
-  def initialize()
-    self.database = StudentsDB.new()
+  def self.get_student(id)
+    Student.from_json(StudentsListDB.database.select_by_id(id))
   end
 
-  def get_student(id)
-    Student.from_json(database.select_by_id(id))
+  def self.remove_student(id)
+    StudentsListDB.database.remove_by_id(id)
   end
 
-  def remove_student(id)
-    database.remove_by_id(id)
+  def self.replace_student(id, student)
+    StudentsListDB.database.replace_by_id(is, student.as_json)
   end
 
-  def replace_student(id, student)
-    database.replace_by_id(is, student.as_json)
+  def self.add_student(student)
+    StudentsListDB.database.add_student(student.as_json)
   end
 
-  def add_student(student)
-    database.add_student(student.as_json)
+  def self.get_students_slice(k, count, data)
+    from = [k * count, self.count].min
+    to = [self.count, from + count].min
+
+    StudentsListDB.database.select_students(from, to).map { |x| Student.from_json(x) }
   end
 
-  def get_students_slice(k, count, data)
-    from = [k * count, self.count()].min
-    to = [self.count(), from + count].min
-
-    database.select_students(from, to).map { |x| Student.from_json(x) }
+  def self.count
+    StudentsListDB.database.count
   end
 
-  def count()
-    database.count()
+  def self.database
+    @database ||= StudentsDB.new
+    @database
   end
-
 end
