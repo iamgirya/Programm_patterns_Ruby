@@ -1,18 +1,19 @@
 require 'mysql2'
+require_relative "../support/meta_code"
 
 class StudentsDB
   private_attr_accessor :db_connection
 
   def initialize
-    self.db_connection = Mysql2::Client.new(:host => "localhost", :username => "root")
+    self.db_connection = Mysql2::Client.new(:host => "localhost", :username => "root", :port => 3306, :password => 123123)
     self.db_connection.query('CREATE DATABASE IF NOT EXISTS my_db')
     self.db_connection.query('USE my_db')
     self.db_connection.query('DROP TABLE IF EXISTS student')
-    self.db_connection.query(File.read('database/scripts/create_table.sql'))
+    self.db_connection.query(File.read('data_base/create_table.sql'))
     self.fill_data
   end
   private def fill_data
-    db_connection.query(File.read('database/scripts/fill_data.sql'))
+    db_connection.query(File.read('data_base/insert.sql'))
   end
 
   def select_by_id(id)

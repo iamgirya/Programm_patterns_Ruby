@@ -1,4 +1,5 @@
 require_relative './student_db.rb'
+require_relative '../models/student/student.rb'
 
 class StudentsListDB
   private_class_method :new
@@ -30,7 +31,7 @@ class StudentsListDB
     StudentsListDB.database.count
   end
 
-  private def self.database
+  def self.database
     @database ||= StudentsDB.new
     @database
   end

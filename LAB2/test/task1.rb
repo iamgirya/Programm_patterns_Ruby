@@ -10,7 +10,7 @@ student2 = Student.new('Пиндосов', 'Облом', 'Баракович', {
 student3 = Student.new('Атому', 'Ли', 'Ядала', { phone: '79181461800', email: 'goaloffway@mail.ru', git: '@vitaliyg' })
 student4 = Student.new('Гераклов', 'Поход', 'Подвигоевич', {id: 12, phone: '79698876534'})
 student5 = Student.new('Братанов', 'Друган', 'Кентович', {id: 77, phone: '+7 (777)-777-77-77'})
-student6 = Student.read_from_txt('support/test.txt')
+student6 = Student.read_from_txt('test/test.txt')
 puts student1
 puts student2
 puts student3
@@ -35,7 +35,7 @@ puts StudentShort.from_json(st4.to_s)
 puts student1.contact
 puts student1.fio
 puts student6[1].get_info
-Student.write_to_txt('support/test2.txt', student6)
+Student.write_to_txt('test/test2.txt', student6)
 
 short_array = [
     StudentShort.new(id: 0, fio: "Aa Bb Cc", git: "@abc", contact: "abc@vk.com"),
@@ -52,6 +52,6 @@ puts list.get_data
 
 stud_list_json = StudentsList.new(DataTransformerJson.new)
 stud_list_yaml = StudentsList.new(DataTransformerYaml.new)
-stud_list_json.read_from_txt('support/test.json')
+stud_list_json.read_from_txt('test/test.json')
 stud_list_json.sorted().each { |x| stud_list_yaml.add_student(x) }
-stud_list_yaml.write_to_txt('support/testik.yaml')
+stud_list_yaml.write_to_txt('test/testik.yaml')

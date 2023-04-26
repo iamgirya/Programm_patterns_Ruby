@@ -49,6 +49,9 @@ class Student < AbstractStudent
     end
   
     def self.from_json(str)
+      unless str.is_a?(String)
+        str = JSON.pretty_generate(str)
+      end
       result = JSON.parse(str)
       raise ArgumentError, 'Missing fields: last_name, first_name, paternal_name' unless result.key?('first_name') && result.key?('last_name') && result.key?('paternal_name')
 
