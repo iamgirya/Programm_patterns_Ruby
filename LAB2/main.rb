@@ -1,12 +1,8 @@
-require 'mysql2'
+require './database/students_db.rb'
+
+db = StudentsDB.new()
 
 client = Mysql2::Client.new(:host => "localhost", :username => "root")
-
-client.query("DROP DATABASE test_db")
-client.query("CREATE DATABASE test_db")
-client.query("USE test_db")
-client.query("CREATE TABLE users(username CHAR(20));")
-client.query('INSERT INTO users (username) VALUES ROW("aboba")')
-
-results = client.query("SELECT * FROM users")
+results = client.query("USE my_db")
+results = client.query("SELECT * FROM student")
 puts results.map { |x| x.to_s }
