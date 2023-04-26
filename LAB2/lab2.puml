@@ -129,6 +129,31 @@ class DataTransformerYaml extends DataTransformer {
     +puts_student(Student): String
     +parse_to_student(String): Student
 }
+
+class StudentsListDB {
+    -database: StudentsDB
+    --
+    +{static}get_student(Integer): Student
+    +{static}remove_student(Integer)
+    +{static}replace_student(Integer, Student)
+    +{static}add_student(Student): Integer
+    +{static}get_students_slice(Integer, Integer, DataList: nil): DataList
+    +{static}count(): Integer
+}
+
+class StudentsDB {
+    -db_connection: Mysql2::Client
+    --
+    +initialize()
+    +select_by_id(Integer): Student
+    +remove_by_id(Integer)
+    +replace_by_id(Integer, Student)
+    +add_student(Student): Integer
+    +select_students(Integer, Integer): DataList
+    +count(): Integer
+    -fill_data()
+}
+
 DataList ..> DataTable
 StudentsList *-- DataTransformer
 @enduml

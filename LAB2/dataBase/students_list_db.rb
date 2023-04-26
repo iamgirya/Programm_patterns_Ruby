@@ -30,7 +30,7 @@ class StudentsListDB
     StudentsListDB.database.count
   end
 
-  def self.database
+  private def self.database
     @database ||= StudentsDB.new
     @database
   end
