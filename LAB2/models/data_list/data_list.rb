@@ -21,6 +21,8 @@ class DataList
     protected def get_vars; raise MESS; end
     protected def filter(object); raise MESS; end
     protected def create_data(objects_names); raise MESS; end
+    protected def get_real_vars; raise MESS; end
+    protected def format_data(objects); end
 
     def get_names
         filter(get_vars)
@@ -29,10 +31,17 @@ class DataList
     def get_data
         DataTable.new(
                     data: create_data(
-                        (0..list.size).map { |object_index|
-                            get_names
+                        (0..list.size-1).map { |object_index|
+                            get_real_vars
                         }
                     )
                 )
+    end
+
+    def replace_objects(objects)
+        objects = format_data(objects)
+
+        self.list = objects.dup
+        EventManager.notify(EventUpdateStudentsTable.new(get_data, get_names))
     end
 end

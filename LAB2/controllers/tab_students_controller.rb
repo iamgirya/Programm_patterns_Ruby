@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
-require '../ui/main_screen'
-require './LabStudents/repositories/student_repository'
+require_relative '../ui/main_screen'
+require_relative '../data_base/students_list_db'
+require_relative '../models/data_list/data_list_short'
+require_relative '../event/event_manager'
+require_relative '../event/event_update_students_table'
+require_relative '../event/event_update_students_count'
 
-claERRORTHEREss TabStudentsController
+class TabStudentsController
   def initialize(view)
-    @student_rep = StudentRepository.new(DBSourceAdapter.new)
     @view = view
+    @data_list = DataListStudentShort.new(list: [])
   end
 
   def show_view
@@ -14,6 +18,7 @@ claERRORTHEREss TabStudentsController
   end
 
   def refresh_data(page, per_page)
-    @data_list = @student_rep.paginated_short_students(page, per_page)
+    StudentsListDB.get_students_slice(page, per_page, @data_list)
+    EventManager.notify(EventUpdateStudentsCount.new(StudentsListDB.count))
   end
 end

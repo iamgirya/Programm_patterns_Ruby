@@ -10,10 +10,7 @@ class StudentsDB
     self.db_connection.query('USE my_db')
     self.db_connection.query('DROP TABLE IF EXISTS student')
     self.db_connection.query(File.read('data_base/create_table.sql'))
-    self.fill_data
-  end
-  private def fill_data
-    db_connection.query(File.read('data_base/insert.sql'))
+    self.db_connection.query(File.read('data_base/insert.sql'))
   end
 
   def select_by_id(id)
@@ -61,7 +58,7 @@ class StudentsDB
   end
 
   def count()
-    db_connection.query("SELECT count(*) FROM student")
+    db_connection.query("SELECT count(*) FROM student").map { |x| x }[0]['count(*)']
   end
 
   private def attr_or_null(attr)

@@ -21,10 +21,10 @@ class StudentsListDB
   end
 
   def self.get_students_slice(k, count, data)
-    from = [k * count, self.count].min
+    from = [(k-1) * count, self.count].min
     to = [self.count, from + count].min
 
-    StudentsListDB.database.select_students(from, to).map { |x| Student.from_json(x) }
+    data.replace_objects(StudentsListDB.database.select_students(from, to).map { |x| Student.from_json(x) })
   end
 
   def self.count
