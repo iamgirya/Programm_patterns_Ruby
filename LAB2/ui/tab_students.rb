@@ -13,6 +13,7 @@ class TabStudents
   def initialize
     @controller = TabStudentsController.new(self)
     @current_page = 1
+    @total_count = 0
   end
 
   def on_create
@@ -24,10 +25,10 @@ class TabStudents
   def on_event(event)
     case event
     when EventUpdateStudentsTable
-      # TODO: обновление столбцов сделать динамически здесь
       @table.model_array = event.new_table.to_2d_array
     when EventUpdateStudentsCount
-      @page_label.text = "#{@current_page} / #{(event.new_count / STUDENTS_PER_PAGE.to_f).ceil}"
+      @total_count = event.new_count
+      @page_label.text = "#{@current_page} / #{(@total_count / STUDENTS_PER_PAGE.to_f).ceil}"
     end
   end
 
@@ -88,9 +89,24 @@ class TabStudents
         @pages = horizontal_box {
           stretchy false
 
-          button("<") { stretchy true }
+          button("<") {
+            stretchy true
+
+            on_clicked do
+              @current_page = [@current_page - 1, 1].max
+              @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+            end
+
+          }
           @page_label = label("...") { stretchy false }
-          button(">") { stretchy true }
+          button(">") {
+            stretchy true
+
+            on_clicked do
+              @current_page = [@current_page + 1, (@total_count / STUDENTS_PER_PAGE.to_f).ceil].min
+              @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+            end
+          }
         }
       }
 
@@ -101,7 +117,13 @@ class TabStudents
         button('Добавить') { stretchy false }
         button('Изменить') { stretchy false }
         button('Удалить') { stretchy false }
-        button('Обновить') { stretchy false }
+        button('Обновить') {
+          stretchy false
+
+          on_clicked {
+            @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+          }
+        }
       }
     }
     on_create
