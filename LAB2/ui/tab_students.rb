@@ -13,7 +13,6 @@ class TabStudents
 
   def initialize
     @controller = TabStudentsController.new(self, STUDENTS_PER_PAGE)
-    @total_count = 0
   end
 
   def on_create
@@ -27,8 +26,7 @@ class TabStudents
     when EventUpdateStudentsTable
       @table.model_array = event.new_table.to_2d_array
     when EventUpdateStudentsCount
-      @total_count = event.new_count
-      @page_label.text = "#{@controller.get_page} / #{(@total_count / STUDENTS_PER_PAGE.to_f).ceil}"
+      @page_label.text = "#{@controller.get_page} / #{(event.new_count / STUDENTS_PER_PAGE.to_f).ceil}"
     end
   end
 
