@@ -17,6 +17,17 @@ class TabStudentsController
     @view.create.show
   end
 
+  def show_modal_add
+    controller = StudentInputFormControllerCreate.new(self)
+    view = StudentInputForm.new(controller)
+    controller.set_view(view)
+    view.create.show
+  end
+
+  def show_modal_edit(current_page, selected_row)
+
+  end
+
   def refresh_data(page, per_page)
     StudentsListDB.get_students_slice(page, per_page, @data_list)
     EventManager.notify(EventUpdateStudentsCount.new(StudentsListDB.count))

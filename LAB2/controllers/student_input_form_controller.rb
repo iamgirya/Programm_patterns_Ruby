@@ -2,22 +2,38 @@
 
 require 'win32api'
 
-class StudentInputFormController
-  def initialize(view, existing_student)
+class StudentInputFormControllerCreate
+  def initialize(parent_controller)
+    @parent_controller = parent_controller
+  end
+
+  def set_view(view)
     @view = view
-    @existing_student = existing_student
   end
 
   def on_view_created
   end
 
-  def save_student(student)
-    if @existing_student.nil?
+  def process_fields(fields)
+    begin
+      last_name = fields.delete(:last_name)
+      first_name = fields.delete(:first_name)
+      father_name = fields.delete(:father_name)
+
+      return if last_name.nil? || first_name.nil? || father_name.nil?
+
+      student = Student.new(last_name, first_name, father_name, **fields)
+
       StudentsListDB.add_student(student)
-    else
-      StudentsListDB.replace_student(@existing_student[:id], student)
+
+      @view.close
+    rescue ArgumentError => e
+      api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')
+      api.call(0, e.message, 'Error', 0)
     end
   end
+
+  private
 
   def on_db_conn_error
     api = Win32API.new('user32', 'MessageBox', ['L', 'P', 'P', 'L'], 'I')

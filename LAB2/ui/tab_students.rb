@@ -84,7 +84,8 @@ class TabStudents
             'Фамилия И. О' => :text,
             'Гит' => :text,
             'Контакт' => :text
-          }
+          },
+          per_page: STUDENTS_PER_PAGE
         )
 
         @pages = horizontal_box {
@@ -119,7 +120,7 @@ class TabStudents
           stretchy false
 
           on_clicked {
-            StudentInputForm.new.create.show
+            @controller.show_modal_add
           }
         }
         button('Изменить') { stretchy false }
