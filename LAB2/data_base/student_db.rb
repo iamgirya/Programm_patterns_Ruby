@@ -14,26 +14,27 @@ class StudentsDB
   end
 
   def select_by_id(id)
-    db_connection.query("SELECT * FROM student WHERE id = #{id}").map { |x| x }[0]
+    db_connection.query("SELECT * FROM student WHERE id = #{id+1}").map { |x| x }[0]
   end
 
   def remove_by_id(id)
-    db_connection.query("DELETE FROM student WHERE id = #{id}")
+    db_connection.query("DELETE FROM student WHERE id = #{id+1}")
   end
 
   def replace_by_id(id, student_json)
-    db_connection.query("DELETE FROM student WHERE id = #{id}")
+    result = JSON.parse(student_json)
+    db_connection.query("DELETE FROM student WHERE id = #{id+1}")
     db_connection.query("""
-            INSERT INTO student (id, lastname, firstname, patronymic, git, phone, email, telegram) VALUES
+            INSERT INTO student (id, last_name, first_name, paternal_name, git, phone, email, telegram) VALUES
             ROW(
-                \"#{id}\",
-                \"#{attr_or_null(student_json["lastname"])}\",
-                \"#{attr_or_null(student_json["firstname"])}\",
-                \"#{attr_or_null(student_json["patronymic"])}\",
-                \"#{attr_or_null(student_json["git"])}\",
-                \"#{attr_or_null(student_json["phone"])}\",
-                \"#{attr_or_null(student_json["email"])}\",
-                \"#{attr_or_null(student_json["telegram"])}\"
+                \"#{id+1}\",
+                \"#{attr_or_null(result.delete('last_name'))}\",
+                \"#{attr_or_null(result.delete("first_name"))}\",
+                \"#{attr_or_null(result.delete("paternal_name"))}\",
+                \"#{attr_or_null(result.delete("git"))}\",
+                \"#{attr_or_null(result.delete("phone"))}\",
+                \"#{attr_or_null(result.delete("email"))}\",
+                \"#{attr_or_null(result.delete("telegram"))}\"
             )
             """)
   end

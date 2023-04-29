@@ -6,11 +6,14 @@ require_relative '../models/data_list/data_list_short'
 require_relative '../event/event_manager'
 require_relative '../event/event_update_students_table'
 require_relative '../event/event_update_students_count'
+require_relative 'student_input_form_controller'
+require_relative 'student_input_form_controller_edit'
 
 class TabStudentsController
-  def initialize(view)
+  def initialize(view, student_per_page)
     @view = view
     @data_list = DataListStudentShort.new(list: [])
+    @student_per_page = student_per_page
   end
 
   def show_view
@@ -25,11 +28,25 @@ class TabStudentsController
   end
 
   def show_modal_edit(current_page, selected_row)
-
+    student_num = (current_page - 1) * @student_per_page + selected_row
+    @data_list.select(student_num)
+    controller = StudentInputFormControllerEdit.new(self, student_num)
+    view = StudentInputForm.new(controller)
+    controller.set_view(view)
+    view.create.show
   end
 
-  def refresh_data(page, per_page)
-    StudentsListDB.get_students_slice(page, per_page, @data_list)
+  def refresh_data(page)
+    StudentsListDB.get_students_slice(page, @student_per_page, @data_list)
     EventManager.notify(EventUpdateStudentsCount.new(StudentsListDB.count))
+  end
+
+  def next_page(is_left)
+    if is_left
+      @current_page = [@current_page - 1, 1].max
+    else
+      @current_page = [@current_page + 1, (@total_count / STUDENTS_PER_PAGE.to_f).ceil].min
+    end
+    @controller.refresh_data(@current_page)
   end
 end

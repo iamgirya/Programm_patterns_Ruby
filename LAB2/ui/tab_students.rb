@@ -12,7 +12,7 @@ class TabStudents
   STUDENTS_PER_PAGE = 20
 
   def initialize
-    @controller = TabStudentsController.new(self)
+    @controller = TabStudentsController.new(self, STUDENTS_PER_PAGE)
     @current_page = 1
     @total_count = 0
   end
@@ -20,7 +20,7 @@ class TabStudents
   def on_create
     EventManager.subscribe(self, EventUpdateStudentsTable)
     EventManager.subscribe(self, EventUpdateStudentsCount)
-    @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+    @controller.refresh_data(@current_page)
   end
 
   def on_event(event)
@@ -95,8 +95,7 @@ class TabStudents
             stretchy true
 
             on_clicked do
-              @current_page = [@current_page - 1, 1].max
-              @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+              @controller.next_page(true)
             end
 
           }
@@ -105,8 +104,7 @@ class TabStudents
             stretchy true
 
             on_clicked do
-              @current_page = [@current_page + 1, (@total_count / STUDENTS_PER_PAGE.to_f).ceil].min
-              @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+              @controller.next_page(false )
             end
           }
         }
@@ -123,13 +121,19 @@ class TabStudents
             @controller.show_modal_add
           }
         }
-        button('Изменить') { stretchy false }
+        button('Изменить') {
+          stretchy false
+
+          on_clicked {
+            @controller.show_modal_edit(@current_page, @table.selection) unless @table.selection.nil?
+          }
+        }
         button('Удалить') { stretchy false }
         button('Обновить') {
           stretchy false
 
           on_clicked {
-            @controller.refresh_data(@current_page, STUDENTS_PER_PAGE)
+            @controller.refresh_data(@current_page)
           }
         }
       }

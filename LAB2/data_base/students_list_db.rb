@@ -13,7 +13,7 @@ class StudentsListDB
   end
 
   def self.replace_student(id, student)
-    StudentsListDB.database.replace_by_id(is, student.as_json)
+    StudentsListDB.database.replace_by_id(id, student.to_s)
   end
 
   def self.add_student(student)

@@ -26,7 +26,7 @@ class StudentInputForm
         @student_form = form {
           stretchy false
 
-          fields = [[:last_name, 'Фамилия', false], [:first_name, 'Имя', false], [:father_name, 'Отчество', false], [:git, 'Гит', true], [:telegram, 'Телеграм', true], [:email, 'Почта', true], [:phone, 'Телефон', true]]
+          fields = [[:last_name, 'Фамилия', false], [:first_name, 'Имя', false], [:paternal_name, 'Отчество', false], [:git, 'Гит', true], [:telegram, 'Телеграм', true], [:email, 'Почта', true], [:phone, 'Телефон', true]]
 
           fields.each do |field|
             @entries[field[0]] = entry {
@@ -59,7 +59,7 @@ class StudentInputForm
 
   def make_readonly(*fields)
     fields.each do |field|
-      field.read_only = true
+      @entries[field].read_only = true
     end
   end
 
