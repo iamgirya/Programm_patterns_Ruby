@@ -13,14 +13,13 @@ class TabStudents
 
   def initialize
     @controller = TabStudentsController.new(self, STUDENTS_PER_PAGE)
-    @current_page = 1
     @total_count = 0
   end
 
   def on_create
     EventManager.subscribe(self, EventUpdateStudentsTable)
     EventManager.subscribe(self, EventUpdateStudentsCount)
-    @controller.refresh_data(@current_page)
+    @controller.refresh_data
   end
 
   def on_event(event)
@@ -29,7 +28,7 @@ class TabStudents
       @table.model_array = event.new_table.to_2d_array
     when EventUpdateStudentsCount
       @total_count = event.new_count
-      @page_label.text = "#{@current_page} / #{(@total_count / STUDENTS_PER_PAGE.to_f).ceil}"
+      @page_label.text = "#{@controller.get_page} / #{(@total_count / STUDENTS_PER_PAGE.to_f).ceil}"
     end
   end
 
@@ -125,7 +124,7 @@ class TabStudents
           stretchy false
 
           on_clicked {
-            @controller.show_modal_edit(@current_page, @table.selection) unless @table.selection.nil?
+            @controller.show_modal_edit(@table.selection) unless @table.selection.nil?
           }
         }
         button('Удалить') { stretchy false }
@@ -133,7 +132,7 @@ class TabStudents
           stretchy false
 
           on_clicked {
-            @controller.refresh_data(@current_page)
+            @controller.refresh_data
           }
         }
       }

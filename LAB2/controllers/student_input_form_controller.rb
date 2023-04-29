@@ -18,11 +18,11 @@ class StudentInputFormControllerCreate
     begin
       last_name = fields.delete(:last_name)
       first_name = fields.delete(:first_name)
-      father_name = fields.delete(:father_name)
+      paternal_name = fields.delete(:paternal_name)
 
-      return if last_name.nil? || first_name.nil? || father_name.nil?
+      return if last_name.nil? || first_name.nil? || paternal_name.nil?
 
-      student = Student.new(last_name, first_name, father_name, **fields)
+      student = Student.new(last_name, first_name, paternal_name, **fields)
 
       StudentsListDB.add_student(student)
 

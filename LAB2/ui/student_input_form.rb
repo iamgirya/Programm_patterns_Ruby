@@ -8,10 +8,11 @@ require 'win32api'
 class StudentInputForm
   include Glimmer
 
-  def initialize(controller, existing_student = nil)
+  def initialize(controller, existing_student = nil, main_controller)
     @existing_student = existing_student.to_hash unless existing_student.nil?
     @controller = controller
     @entries = {}
+    @main_controller = main_controller
   end
 
   def on_create
@@ -43,6 +44,7 @@ class StudentInputForm
             values.transform_values! { |v| v.empty? ? nil : v}
 
             @controller.process_fields(values)
+            @main_controller.refresh_data
           }
         }
       }
