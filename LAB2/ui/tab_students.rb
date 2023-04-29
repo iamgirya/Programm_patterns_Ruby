@@ -127,7 +127,14 @@ class TabStudents
             @controller.show_modal_edit(@table.selection) unless @table.selection.nil?
           }
         }
-        button('Удалить') { stretchy false }
+        button('Удалить') {
+          stretchy false
+
+          on_clicked {
+            @controller.delete_selected( @table.selection) unless @table.selection.nil?
+            @controller.refresh_data
+          }
+        }
         button('Обновить') {
           stretchy false
 

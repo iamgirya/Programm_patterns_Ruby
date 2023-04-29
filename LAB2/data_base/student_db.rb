@@ -14,20 +14,20 @@ class StudentsDB
   end
 
   def select_by_id(id)
-    db_connection.query("SELECT * FROM student WHERE id = #{id+1}").map { |x| x }[0]
+    db_connection.query("SELECT * FROM student WHERE id = #{id}").map { |x| x }[0]
   end
 
   def remove_by_id(id)
-    db_connection.query("DELETE FROM student WHERE id = #{id+1}")
+    db_connection.query("DELETE FROM student WHERE id = #{id}")
   end
 
   def replace_by_id(id, student_json)
     result = JSON.parse(student_json)
-    db_connection.query("DELETE FROM student WHERE id = #{id+1}")
+    db_connection.query("DELETE FROM student WHERE id = #{id}")
     db_connection.query("""
             INSERT INTO student (id, last_name, first_name, paternal_name, git, phone, email, telegram) VALUES
             ROW(
-                \"#{id+1}\",
+                \"#{id}\",
                 \"#{attr_or_null(result.delete('last_name'))}\",
                 \"#{attr_or_null(result.delete("first_name"))}\",
                 \"#{attr_or_null(result.delete("paternal_name"))}\",

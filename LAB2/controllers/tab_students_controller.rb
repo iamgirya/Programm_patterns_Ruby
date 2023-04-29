@@ -30,12 +30,23 @@ class TabStudentsController
 
   def show_modal_edit(selected_row)
     student_num = (@current_page - 1) * @student_per_page + selected_row
-    @data_list.select(student_num)
-    controller = StudentInputFormControllerEdit.new(self, student_num)
+    student_id = @data_list.get_id_by_index(student_num)
+    controller = StudentInputFormControllerEdit.new(self, student_id)
     view = StudentInputForm.new(controller, self)
     controller.set_view(view)
     view.create.show
   end
+
+  def delete_selected(selected_row)
+    begin
+      student_num = (@current_page - 1) * @student_per_page + selected_row
+      student_id = @data_list.get_id_by_index(student_num)
+      StudentsListDB.remove_student(student_id)
+    rescue
+      on_db_conn_error
+    end
+  end
+
 
   def refresh_data
     StudentsListDB.get_students_slice(@current_page, @student_per_page, @data_list)

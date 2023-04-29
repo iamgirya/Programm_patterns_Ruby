@@ -13,8 +13,8 @@ class DataList
         selected_objects << list[index].id
     end
 
-    def get_selected_objects
-        selected_objects
+    def get_id_by_index(index)
+        list[index].id
     end
 
     MESS = "SYSTEM ERROR: method missing"
