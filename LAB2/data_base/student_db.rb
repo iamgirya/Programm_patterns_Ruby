@@ -39,16 +39,17 @@ class StudentsDB
   end
 
   def add_student(student_json)
+    result = JSON.parse(student_json)
     db_connection.query("""
-        INSERT INTO student (lastname, firstname, patronymic, git, phone, email, telegram) VALUES
+        INSERT INTO student (last_name, first_name, paternal_name, git, phone, email, telegram) VALUES
         ROW(
-            \"#{attr_or_null(student_json["lastname"])}\",
-            \"#{attr_or_null(student_json["firstname"])}\",
-            \"#{attr_or_null(student_json["patronymic"])}\",
-            \"#{attr_or_null(student_json["git"])}\",
-            \"#{attr_or_null(student_json["phone"])}\",
-            \"#{attr_or_null(student_json["email"])}\",
-            \"#{attr_or_null(student_json["telegram"])}\"
+            \"#{attr_or_null(result.delete('last_name'))}\",
+            \"#{attr_or_null(result.delete("first_name"))}\",
+            \"#{attr_or_null(result.delete("paternal_name"))}\",
+            \"#{attr_or_null(result.delete("git"))}\",
+            \"#{attr_or_null(result.delete("phone"))}\",
+            \"#{attr_or_null(result.delete("email"))}\",
+            \"#{attr_or_null(result.delete("telegram"))}\"
         )
         """)
   end

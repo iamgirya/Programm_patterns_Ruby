@@ -17,7 +17,7 @@ class StudentsListDB
   end
 
   def self.add_student(student)
-    StudentsListDB.database.add_student(student.as_json)
+    StudentsListDB.database.add_student(student.to_s)
   end
 
   def self.get_students_slice(k, count, data)

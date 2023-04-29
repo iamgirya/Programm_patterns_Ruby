@@ -18,11 +18,11 @@ class Student < AbstractStudent
       self.last_name = last_name
       self.first_name = first_name
       self.paternal_name = paternal_name
-      self.id = options[:id]
-      self.phone = options[:phone]
-      self.git = options[:git]
-      self.telegram = options[:telegram]
-      self.email = options[:email]
+      self.id = options[:id] == 'NULL' ? nil : options[:id]
+      self.phone = options[:phone] == 'NULL' ? nil : options[:phone]
+      self.git = options[:git] == 'NULL' ? nil : options[:git]
+      self.telegram = options[:telegram] == 'NULL' ? nil : options[:telegram]
+      self.email = options[:email] == 'NULL' ? nil : options[:email]
     end
 
     attr_is_have_reader :fio

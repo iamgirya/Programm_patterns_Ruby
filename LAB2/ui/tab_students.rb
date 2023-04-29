@@ -4,6 +4,7 @@ require_relative '../controllers/tab_students_controller'
 require_relative '../event/event_manager'
 require_relative '../event/event_update_students_table'
 require_relative '../event/event_update_students_count'
+require_relative '../ui/student_input_form'
 
 class TabStudents
   include Glimmer
@@ -114,7 +115,13 @@ class TabStudents
       vertical_box {
         stretchy false
 
-        button('Добавить') { stretchy false }
+        button('Добавить') {
+          stretchy false
+
+          on_clicked {
+            StudentInputForm.new.create.show
+          }
+        }
         button('Изменить') { stretchy false }
         button('Удалить') { stretchy false }
         button('Обновить') {
