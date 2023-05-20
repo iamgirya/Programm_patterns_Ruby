@@ -42,7 +42,7 @@ def attr_validate_accessor(methods, regex)
     class_eval %{
         def #{methods}=(new_value)
             if new_value != nil && new_value !~ #{regex}
-                raise "invalid #{methods} format"
+                raise ArgumentError
             end
             @#{methods} = new_value
         end
